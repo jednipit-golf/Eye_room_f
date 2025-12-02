@@ -45,6 +45,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
+    // Reload หน้าเพื่อ clear cache และ state ทั้งหมด
+    window.location.href = '/';
   };
 
   return (

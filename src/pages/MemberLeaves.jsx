@@ -1,15 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 import { authAPI } from '../api';
 
 function MemberLeaves() {
   const { memberId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [member, setMember] = useState(null);
   const [leaves, setLeaves] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedLeave, setSelectedLeave] = useState(null);
+
+  // ป้องกัน non-admin เข้าถึง
+  useEffect(() => {
+    if (user && user.role !== 'admin') {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     fetchMemberData();
