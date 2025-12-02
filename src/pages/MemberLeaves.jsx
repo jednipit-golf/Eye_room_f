@@ -9,9 +9,11 @@ function MemberLeaves() {
   const { user } = useAuth();
   const [member, setMember] = useState(null);
   const [leaves, setLeaves] = useState([]);
+  const [filteredLeaves, setFilteredLeaves] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedLeave, setSelectedLeave] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('all');
 
   // ป้องกัน non-admin เข้าถึง
   useEffect(() => {
@@ -37,11 +39,25 @@ function MemberLeaves() {
       
       setMember(memberData);
       setLeaves(memberData.leaves);
+      setFilteredLeaves(memberData.leaves);
     } catch (error) {
       setError(error.response?.data?.message || 'เกิดข้อผิดพลาดในการโหลดข้อมูล');
     } finally {
       setLoading(false);
     }
+  };
+
+  // กรองข้อมูลตาม status
+  useEffect(() => {
+    if (statusFilter === 'all') {
+      setFilteredLeaves(leaves);
+    } else {
+      setFilteredLeaves(leaves.filter(leave => leave.status === statusFilter));
+    }
+  }, [statusFilter, leaves]);
+
+  const handleStatusFilter = (status) => {
+    setStatusFilter(status);
   };
 
   const formatDate = (dateString) => {
@@ -125,31 +141,116 @@ function MemberLeaves() {
       <div className="card" style={{ marginBottom: '1.5rem' }}>
         <h3 style={{ marginBottom: '1rem' }}>สถิติการลา</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
-          <div style={{ textAlign: 'center', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <div 
+            style={{ 
+              textAlign: 'center', 
+              padding: '1rem', 
+              backgroundColor: statusFilter === 'all' ? '#e9ecef' : '#f8f9fa', 
+              borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              border: statusFilter === 'all' ? '2px solid #495057' : '2px solid transparent'
+            }}
+            onClick={() => handleStatusFilter('all')}
+            onMouseEnter={(e) => {
+              if (statusFilter !== 'all') e.currentTarget.style.backgroundColor = '#e9ecef';
+            }}
+            onMouseLeave={(e) => {
+              if (statusFilter !== 'all') e.currentTarget.style.backgroundColor = '#f8f9fa';
+            }}
+          >
             <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#495057' }}>
               {member?.stats.total}
             </p>
             <p style={{ margin: 0, color: '#666' }}>ครั้งทั้งหมด</p>
           </div>
-          <div style={{ textAlign: 'center', padding: '1rem', backgroundColor: '#d3f9d8', borderRadius: '8px' }}>
+          <div 
+            style={{ 
+              textAlign: 'center', 
+              padding: '1rem', 
+              backgroundColor: statusFilter === 'approved' ? '#c3fae8' : '#d3f9d8', 
+              borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              border: statusFilter === 'approved' ? '2px solid #2b8a3e' : '2px solid transparent'
+            }}
+            onClick={() => handleStatusFilter('approved')}
+            onMouseEnter={(e) => {
+              if (statusFilter !== 'approved') e.currentTarget.style.backgroundColor = '#c3fae8';
+            }}
+            onMouseLeave={(e) => {
+              if (statusFilter !== 'approved') e.currentTarget.style.backgroundColor = '#d3f9d8';
+            }}
+          >
             <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#2b8a3e' }}>
               {member?.stats.approved}
             </p>
             <p style={{ margin: 0, color: '#2b8a3e' }}>อนุมัติ</p>
           </div>
-          <div style={{ textAlign: 'center', padding: '1rem', backgroundColor: '#fff3bf', borderRadius: '8px' }}>
+          <div 
+            style={{ 
+              textAlign: 'center', 
+              padding: '1rem', 
+              backgroundColor: statusFilter === 'pending' ? '#ffe066' : '#fff3bf', 
+              borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              border: statusFilter === 'pending' ? '2px solid #e67700' : '2px solid transparent'
+            }}
+            onClick={() => handleStatusFilter('pending')}
+            onMouseEnter={(e) => {
+              if (statusFilter !== 'pending') e.currentTarget.style.backgroundColor = '#ffe066';
+            }}
+            onMouseLeave={(e) => {
+              if (statusFilter !== 'pending') e.currentTarget.style.backgroundColor = '#fff3bf';
+            }}
+          >
             <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#e67700' }}>
               {member?.stats.pending}
             </p>
             <p style={{ margin: 0, color: '#e67700' }}>รอพิจารณา</p>
           </div>
-          <div style={{ textAlign: 'center', padding: '1rem', backgroundColor: '#ffe0e0', borderRadius: '8px' }}>
+          <div 
+            style={{ 
+              textAlign: 'center', 
+              padding: '1rem', 
+              backgroundColor: statusFilter === 'rejected' ? '#ffc9c9' : '#ffe0e0', 
+              borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              border: statusFilter === 'rejected' ? '2px solid #c92a2a' : '2px solid transparent'
+            }}
+            onClick={() => handleStatusFilter('rejected')}
+            onMouseEnter={(e) => {
+              if (statusFilter !== 'rejected') e.currentTarget.style.backgroundColor = '#ffc9c9';
+            }}
+            onMouseLeave={(e) => {
+              if (statusFilter !== 'rejected') e.currentTarget.style.backgroundColor = '#ffe0e0';
+            }}
+          >
             <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#c92a2a' }}>
               {member?.stats.rejected}
             </p>
             <p style={{ margin: 0, color: '#c92a2a' }}>ไม่อนุมัติ</p>
           </div>
-          <div style={{ textAlign: 'center', padding: '1rem', backgroundColor: '#e7f5ff', borderRadius: '8px' }}>
+          <div 
+            style={{ 
+              textAlign: 'center', 
+              padding: '1rem', 
+              backgroundColor: statusFilter === 'totalDays' ? '#a5d8ff' : '#e7f5ff', 
+              borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              border: statusFilter === 'totalDays' ? '2px solid #1971c2' : '2px solid transparent'
+            }}
+            onClick={() => handleStatusFilter('approved')}
+            onMouseEnter={(e) => {
+              if (statusFilter !== 'totalDays') e.currentTarget.style.backgroundColor = '#a5d8ff';
+            }}
+            onMouseLeave={(e) => {
+              if (statusFilter !== 'totalDays') e.currentTarget.style.backgroundColor = '#e7f5ff';
+            }}
+          >
             <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#1971c2' }}>
               {member?.stats.totalDaysApproved}
             </p>
@@ -160,8 +261,15 @@ function MemberLeaves() {
 
       {/* ตารางวันลา */}
       <div className="card">
-        <h3 style={{ marginBottom: '1rem' }}>ประวัติการลา ({leaves.length} รายการ)</h3>
-        {leaves.length > 0 ? (
+        <h3 style={{ marginBottom: '1rem' }}>
+          ประวัติการลา ({filteredLeaves.length} รายการ
+          {statusFilter !== 'all' && ` - ${
+            statusFilter === 'approved' ? 'อนุมัติ' :
+            statusFilter === 'pending' ? 'รอพิจารณา' :
+            statusFilter === 'rejected' ? 'ไม่อนุมัติ' : ''
+          }`})
+        </h3>
+        {filteredLeaves.length > 0 ? (
           <table className="table">
             <thead>
               <tr>
@@ -173,7 +281,7 @@ function MemberLeaves() {
               </tr>
             </thead>
             <tbody>
-              {leaves.map((leave) => (
+              {filteredLeaves.map((leave) => (
                 <tr key={leave._id}>
                   <td data-label="วันที่เริ่ม">{formatDate(leave.startDate)}</td>
                   <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
@@ -196,7 +304,13 @@ function MemberLeaves() {
           </table>
         ) : (
           <div style={{ textAlign: 'center', padding: '3rem', color: '#666' }}>
-            <p style={{ fontSize: '1.2rem' }}>ยังไม่มีประวัติการลา</p>
+            <p style={{ fontSize: '1.2rem' }}>
+              {statusFilter === 'all' ? 'ยังไม่มีประวัติการลา' : `ไม่มีประวัติการลา${
+                statusFilter === 'approved' ? 'ที่อนุมัติ' :
+                statusFilter === 'pending' ? 'ที่รอพิจารณา' :
+                statusFilter === 'rejected' ? 'ที่ไม่อนุมัติ' : ''
+              }`}
+            </p>
           </div>
         )}
       </div>
