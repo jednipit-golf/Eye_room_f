@@ -8,6 +8,13 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
+  const formatPhoneDisplay = (phone) => {
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length <= 3) return cleaned;
+    if (cleaned.length <= 6) return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+    return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -25,7 +32,7 @@ function Login() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>🔐 เข้าสู่ระบบ</h2>
+        <h2>เข้าสู่ระบบ</h2>
         
         {error && (
           <div className="alert alert-error">
@@ -38,9 +45,15 @@ function Login() {
             <label>เบอร์โทรศัพท์</label>
             <input
               type="tel"
-              value={telephone}
-              onChange={(e) => setTelephone(e.target.value)}
-              placeholder="0812345678"
+              value={formatPhoneDisplay(telephone)}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 10) {
+                  setTelephone(value);
+                }
+              }}
+              placeholder="081-234-5678"
+              maxLength={12}
               required
             />
           </div>
@@ -65,12 +78,6 @@ function Login() {
             {loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
           </button>
         </form>
-
-        <div className="alert alert-info" style={{ marginTop: '1.5rem' }}>
-          <strong>ทดสอบระบบ:</strong><br />
-          ใช้บัญชีที่สร้างโดย admin เท่านั้น<br />
-          ไม่มีระบบสมัครสมาชิก
-        </div>
       </div>
     </div>
   );
