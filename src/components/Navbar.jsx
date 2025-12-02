@@ -1,20 +1,31 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
 function Navbar() {
   const { user, logout } = useAuth();
+  const location = useLocation();
+
+  const isActive = (path) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    if (path === '/members') {
+      return location.pathname === '/members' || location.pathname.startsWith('/members/');
+    }
+    return location.pathname === path;
+  };
 
   return (
     <nav className="navbar">
       <h1>📅 ระบบจองวันลา</h1>
       <ul className="nav-links">
-        <li><Link to="/">หน้าหลัก</Link></li>
-        <li><Link to="/my-leaves">วันลาของฉัน</Link></li>
-        <li><Link to="/new-leave">จองวันลา</Link></li>
+        <li><Link to="/" className={isActive('/') ? 'active' : ''}>หน้าหลัก</Link></li>
+        <li><Link to="/my-leaves" className={isActive('/my-leaves') ? 'active' : ''}>วันลาของฉัน</Link></li>
+        <li><Link to="/new-leave" className={isActive('/new-leave') ? 'active' : ''}>จองวันลา</Link></li>
         {user?.role === 'admin' && (
           <>
-            <li><Link to="/manage-leaves">จัดการคำขอลา</Link></li>
-            <li><Link to="/members">สมาชิกทั้งหมด</Link></li>
+            <li><Link to="/manage-leaves" className={isActive('/manage-leaves') ? 'active' : ''}>จัดการคำขอลา</Link></li>
+            <li><Link to="/members" className={isActive('/members') ? 'active' : ''}>สมาชิกทั้งหมด</Link></li>
           </>
         )}
       </ul>
