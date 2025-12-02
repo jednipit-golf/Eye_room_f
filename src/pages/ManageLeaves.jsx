@@ -10,7 +10,7 @@ function ManageLeaves() {
   const [selectedLeave, setSelectedLeave] = useState(null);
 
   useEffect(() => {
-    if (user?.role !== 'admin') {
+    if (user?.role !== 'admin' && user?.role !== 'system-admin') {
       alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
       window.location.href = '/';
       return;

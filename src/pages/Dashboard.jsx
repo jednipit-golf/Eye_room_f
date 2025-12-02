@@ -86,6 +86,7 @@ function Dashboard() {
             <tr>
               <td><strong>สิทธิ์</strong></td>
               <td>
+                {user?.role === 'system-admin' && '⚡ System Admin'}
                 {user?.role === 'admin' && '👑 ผู้ดูแลระบบ'}
                 {user?.role === 'user' && '👤 ผู้ใช้งาน'}
               </td>

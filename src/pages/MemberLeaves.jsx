@@ -17,7 +17,7 @@ function MemberLeaves() {
 
   // ป้องกัน non-admin เข้าถึง
   useEffect(() => {
-    if (user && user.role !== 'admin') {
+    if (user && user.role !== 'admin' && user.role !== 'system-admin') {
       navigate('/');
     }
   }, [user, navigate]);
