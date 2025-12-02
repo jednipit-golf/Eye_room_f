@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard';
 import MyLeaves from './pages/MyLeaves';
 import NewLeave from './pages/NewLeave';
 import ManageLeaves from './pages/ManageLeaves';
+import Members from './pages/Members';
+import MemberLeaves from './pages/MemberLeaves';
 import Navbar from './components/Navbar';
 
 // Protected Route Component
@@ -35,6 +37,8 @@ function AppContent() {
           <Route path="/my-leaves" element={<ProtectedRoute><MyLeaves /></ProtectedRoute>} />
           <Route path="/new-leave" element={<ProtectedRoute><NewLeave /></ProtectedRoute>} />
           <Route path="/manage-leaves" element={<ProtectedRoute><ManageLeaves /></ProtectedRoute>} />
+          <Route path="/members" element={<ProtectedRoute><Members /></ProtectedRoute>} />
+          <Route path="/members/:memberId" element={<ProtectedRoute><MemberLeaves /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

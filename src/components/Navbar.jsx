@@ -12,7 +12,10 @@ function Navbar() {
         <li><Link to="/my-leaves">วันลาของฉัน</Link></li>
         <li><Link to="/new-leave">จองวันลา</Link></li>
         {user?.role === 'admin' && (
-          <li><Link to="/manage-leaves">จัดการคำขอลา</Link></li>
+          <>
+            <li><Link to="/manage-leaves">จัดการคำขอลา</Link></li>
+            <li><Link to="/members">สมาชิกทั้งหมด</Link></li>
+          </>
         )}
       </ul>
       <div className="nav-user">

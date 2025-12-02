@@ -42,6 +42,7 @@ export const authAPI = {
   login: (credentials) => api.post('/auth/login', credentials),
   getMe: () => api.get('/auth/me'),
   logout: () => api.get('/auth/logout'),
+  getAllMembers: () => api.get('/auth/members'),
 };
 
 // Leave APIs
