@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { leaveAPI } from '../api';
 
 function NewLeave() {
   const navigate = useNavigate();
+  const dateInputRef = useRef(null);
   const [formData, setFormData] = useState({
     startDate: '',
     totalDays: '',
@@ -17,6 +18,17 @@ function NewLeave() {
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  // แปลงวันที่จาก YYYY-MM-DD เป็น DD/MM/YYYY สำหรับแสดงผล
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return '';
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleCalendarClick = () => {
+    dateInputRef.current?.showPicker();
   };
 
   // แปลงวันที่จาก input (YYYY-MM-DD) เป็น DD-MM-YYYY (พ.ศ.)
@@ -64,13 +76,58 @@ function NewLeave() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>วันที่เริ่มลา *</label>
-            <input
-              type="date"
-              name="startDate"
-              value={formData.startDate}
-              onChange={handleChange}
-              required
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type="text"
+                value={formatDateForDisplay(formData.startDate)}
+                readOnly
+                placeholder="DD/MM/YYYY"
+                required
+                style={{ 
+                  paddingRight: '50px',
+                  cursor: 'pointer'
+                }}
+                onClick={handleCalendarClick}
+              />
+              <input
+                ref={dateInputRef}
+                type="date"
+                name="startDate"
+                value={formData.startDate}
+                onChange={handleChange}
+                required
+                style={{
+                  position: 'absolute',
+                  right: '0',
+                  top: '0',
+                  bottom: '0',
+                  width: '45px',
+                  opacity: '0',
+                  cursor: 'pointer'
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleCalendarClick}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1.2rem',
+                  padding: '5px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  pointerEvents: 'none'
+                }}
+              >
+                📅
+              </button>
+            </div>
           </div>
 
           <div className="form-group">
