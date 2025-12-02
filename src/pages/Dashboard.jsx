@@ -110,12 +110,12 @@ function Dashboard() {
             <tbody>
               {recentLeaves.map((leave) => (
                 <tr key={leave._id}>
-                  <td>{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
-                  <td>{leave.totalDays} วัน</td>
-                  <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
+                  <td data-label="เหตุผล" style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {leave.reason}
                   </td>
-                  <td>{getStatusBadge(leave.status)}</td>
+                  <td data-label="สถานะ">{getStatusBadge(leave.status)}</td>
                 </tr>
               ))}
             </tbody>

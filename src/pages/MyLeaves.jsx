@@ -75,13 +75,13 @@ function MyLeaves() {
             <tbody>
               {leaves.map((leave) => (
                 <tr key={leave._id}>
-                  <td>{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
-                  <td>{leave.totalDays} วัน</td>
-                  <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
+                  <td data-label="เหตุผล" style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {leave.reason}
                   </td>
-                  <td>{getStatusBadge(leave.status)}</td>
-                  <td>
+                  <td data-label="สถานะ">{getStatusBadge(leave.status)}</td>
+                  <td data-label="การจัดการ">
                     <button
                       className="btn btn-secondary"
                       style={{ marginRight: '0.5rem', padding: '0.4rem 0.8rem', fontSize: '0.875rem' }}

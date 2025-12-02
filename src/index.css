@@ -329,24 +329,201 @@ body {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .container {
+    padding: 15px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
+    padding: 1rem;
+    flex-wrap: wrap;
     gap: 1rem;
   }
-  
-  .nav-links {
-    flex-direction: column;
-    gap: 0.5rem;
+
+  .navbar h1 {
+    font-size: 1.2rem;
+    width: 100%;
     text-align: center;
   }
   
-  .table {
-    font-size: 0.875rem;
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .nav-links li {
+    flex: 0 0 auto;
+  }
+
+  .nav-links a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-user {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .nav-user span {
+    font-size: 0.9rem;
+  }
+
+  .btn-logout {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
   }
   
-  .table th,
+  .container {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .card h2, .card h3 {
+    font-size: 1.3rem;
+  }
+
+  /* Tables - แสดงแบบ card บนมือถือ */
+  .table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody {
+    display: block;
+  }
+
+  .table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.75rem;
+    background: white;
+  }
+
   .table td {
+    display: block;
+    text-align: right;
     padding: 0.5rem;
+    border: none;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0.5rem;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  /* Buttons - ปรับให้ stack แนวตั้งบนมือถือ */
+  .table td[data-label="การจัดการ"] {
+    text-align: left;
+    padding-left: 0.5rem;
+  }
+
+  .table td[data-label="การจัดการ"] .btn {
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px; /* ป้องกัน zoom บน iOS */
+  }
+
+  /* Stats grid */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Auth card */
+  .auth-card {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  /* Modal */
+  .card[style*="position: fixed"] {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 1rem;
+  }
+
+  /* ปรับ flex layout ให้ wrap */
+  div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+  }
+
+  /* ปรับปุ่มกลับในหน้า MemberLeaves */
+  div[style*="display: flex"][style*="align-items: center"] .btn {
+    width: auto;
+    margin-bottom: 0;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem;
+  }
+
+  .navbar h1 {
+    font-size: 1rem;
+  }
+
+  .nav-links a {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .card {
+    padding: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+
+  .stat-card .value {
+    font-size: 1.5rem;
   }
 }

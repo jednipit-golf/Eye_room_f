@@ -175,13 +175,13 @@ function MemberLeaves() {
             <tbody>
               {leaves.map((leave) => (
                 <tr key={leave._id}>
-                  <td>{formatDate(leave.startDate)}</td>
-                  <td>{leave.totalDays} วัน</td>
-                  <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <td data-label="วันที่เริ่ม">{formatDate(leave.startDate)}</td>
+                  <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
+                  <td data-label="เหตุผล" style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {leave.reason}
                   </td>
-                  <td>{getStatusBadge(leave.status)}</td>
-                  <td>
+                  <td data-label="สถานะ">{getStatusBadge(leave.status)}</td>
+                  <td data-label="การจัดการ">
                     <button
                       className="btn btn-secondary"
                       style={{ padding: '0.4rem 0.8rem', fontSize: '0.875rem' }}

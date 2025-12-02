@@ -132,15 +132,15 @@ function ManageLeaves() {
             <tbody>
               {leaves.map((leave) => (
                 <tr key={leave._id}>
-                  <td>{leave.user?.name || 'N/A'}</td>
-                  <td>{leave.user?.telephone || 'N/A'}</td>
-                  <td>{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
-                  <td>{leave.totalDays} วัน</td>
-                  <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <td data-label="พนักงาน">{leave.user?.name || 'N/A'}</td>
+                  <td data-label="เบอร์โทร">{leave.user?.telephone || 'N/A'}</td>
+                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
+                  <td data-label="เหตุผล" style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {leave.reason}
                   </td>
-                  <td>{getStatusBadge(leave.status)}</td>
-                  <td>
+                  <td data-label="สถานะ">{getStatusBadge(leave.status)}</td>
+                  <td data-label="การจัดการ">
                     <button
                       className="btn btn-secondary"
                       style={{ marginRight: '0.5rem', padding: '0.4rem 0.8rem', fontSize: '0.875rem' }}
