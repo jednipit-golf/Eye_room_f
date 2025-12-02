@@ -106,9 +106,6 @@ function MyLeaves() {
         ) : (
           <div style={{ textAlign: 'center', padding: '3rem', color: '#666' }}>
             <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>ยังไม่มีคำขอลา</p>
-            <a href="/new-leave" className="btn btn-primary">
-              จองวันลา
-            </a>
           </div>
         )}
       </div>
