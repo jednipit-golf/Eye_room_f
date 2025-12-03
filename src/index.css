@@ -539,20 +539,20 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.subtitle {
+.manage-users-container .subtitle {
   color: #7f8c8d;
   margin-bottom: 2rem;
   font-size: 0.9rem;
 }
 
-.tabs {
+.manage-users-container .tabs {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 2rem;
   border-bottom: 2px solid #ecf0f1;
 }
 
-.tab {
+.manage-users-container .tab {
   padding: 1rem 1.5rem;
   background: none;
   border: none;
@@ -564,18 +564,18 @@ body {
   font-weight: 500;
 }
 
-.tab:hover {
+.manage-users-container .tab:hover {
   color: #2c3e50;
   background-color: #ecf0f1;
 }
 
-.tab.active {
+.manage-users-container .tab.active {
   color: #3498db;
   border-bottom-color: #3498db;
   background-color: #ebf5fb;
 }
 
-.tab-content {
+.manage-users-container .tab-content {
   animation: fadeIn 0.3s;
 }
 
@@ -590,25 +590,25 @@ body {
   }
 }
 
-.user-form {
+.manage-users-container .user-form {
   background: white;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.user-form .form-group {
+.manage-users-container .user-form .form-group {
   margin-bottom: 1.5rem;
 }
 
-.user-form label {
+.manage-users-container .user-form label {
   display: block;
   margin-bottom: 0.5rem;
   color: #2c3e50;
   font-weight: 500;
 }
 
-.user-form input {
+.manage-users-container .user-form input {
   width: 100%;
   padding: 0.75rem;
   border: 2px solid #ecf0f1;
@@ -617,43 +617,43 @@ body {
   transition: border-color 0.3s;
 }
 
-.user-form input:focus {
+.manage-users-container .user-form input:focus {
   outline: none;
   border-color: #3498db;
 }
 
-.user-form input:disabled {
+.manage-users-container .user-form input:disabled {
   background-color: #ecf0f1;
   cursor: not-allowed;
 }
 
-.user-form small {
+.manage-users-container .user-form small {
   display: block;
   margin-top: 0.25rem;
   color: #7f8c8d;
   font-size: 0.85rem;
 }
 
-.message {
+.manage-users-container .message {
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
   font-weight: 500;
 }
 
-.message.success {
+.manage-users-container .message.success {
   background-color: #d4edda;
   color: #155724;
   border: 1px solid #c3e6cb;
 }
 
-.message.error {
+.manage-users-container .message.error {
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
 
-.warning-box {
+.manage-users-container .warning-box {
   background-color: #fff3cd;
   border: 1px solid #ffeaa7;
   border-radius: 4px;
@@ -662,12 +662,12 @@ body {
   color: #856404;
 }
 
-.warning-box strong {
+.manage-users-container .warning-box strong {
   display: block;
   margin-bottom: 0.5rem;
 }
 
-.btn-primary {
+.manage-users-container .btn-primary {
   width: 100%;
   padding: 1rem;
   background-color: #3498db;
@@ -680,11 +680,11 @@ body {
   transition: background-color 0.3s;
 }
 
-.btn-primary:hover:not(:disabled) {
+.manage-users-container .btn-primary:hover:not(:disabled) {
   background-color: #2980b9;
 }
 
-.btn-primary:disabled {
+.manage-users-container .btn-primary:disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
 }
