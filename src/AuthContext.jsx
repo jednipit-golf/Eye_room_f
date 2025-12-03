@@ -34,8 +34,13 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const response = await authAPI.login(credentials);
-      // Backend จะส่ง cookies มาให้อัตโนมัติ ไม่ต้องเก็บใน localStorage
-      const { user } = response.data;
+      const { user, accessToken } = response.data;
+      
+      // เก็บ token ใน localStorage สำหรับ iOS/Safari
+      if (accessToken) {
+        localStorage.setItem('accessToken', accessToken);
+      }
+      
       setUser(user);
       return { success: true };
     } catch (error) {
@@ -53,8 +58,9 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
+      // ลบ token จาก localStorage
+      localStorage.removeItem('accessToken');
       setUser(null);
-      // ไม่ต้อง reload หน้า ให้ App.jsx จัดการ navigation แทน
     }
   };
 
