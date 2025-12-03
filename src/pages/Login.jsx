@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
 function Login() {
@@ -7,6 +8,7 @@ function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const formatPhoneDisplay = (phone) => {
     const cleaned = phone.replace(/\D/g, '');
@@ -22,7 +24,9 @@ function Login() {
 
     const result = await login({ telephone, password });
     
-    if (!result.success) {
+    if (result.success) {
+      navigate('/dashboard');
+    } else {
       setError(result.message);
     }
     

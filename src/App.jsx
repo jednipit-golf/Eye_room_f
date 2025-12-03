@@ -22,27 +22,95 @@ const ProtectedRoute = ({ children }) => {
 
 // Main App
 function AppContent() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
-  if (!user) {
-    return <Login />;
+  if (loading) {
+    return <div className="loading">กำลังโหลด...</div>;
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="container">
-        <Routes>
-          <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/my-leaves" element={<ProtectedRoute><MyLeaves /></ProtectedRoute>} />
-          <Route path="/new-leave" element={<ProtectedRoute><NewLeave /></ProtectedRoute>} />
-          <Route path="/manage-leaves" element={<ProtectedRoute><ManageLeaves /></ProtectedRoute>} />
-          <Route path="/members" element={<ProtectedRoute><Members /></ProtectedRoute>} />
-          <Route path="/members/:memberId" element={<ProtectedRoute><MemberLeaves /></ProtectedRoute>} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+      <Route 
+        path="/dashboard" 
+        element={
+          <ProtectedRoute>
+            <>
+              <Navbar />
+              <div className="container">
+                <Dashboard />
+              </div>
+            </>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/my-leaves" 
+        element={
+          <ProtectedRoute>
+            <>
+              <Navbar />
+              <div className="container">
+                <MyLeaves />
+              </div>
+            </>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/new-leave" 
+        element={
+          <ProtectedRoute>
+            <>
+              <Navbar />
+              <div className="container">
+                <NewLeave />
+              </div>
+            </>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/manage-leaves" 
+        element={
+          <ProtectedRoute>
+            <>
+              <Navbar />
+              <div className="container">
+                <ManageLeaves />
+              </div>
+            </>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/members" 
+        element={
+          <ProtectedRoute>
+            <>
+              <Navbar />
+              <div className="container">
+                <Members />
+              </div>
+            </>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/members/:memberId" 
+        element={
+          <ProtectedRoute>
+            <>
+              <Navbar />
+              <div className="container">
+                <MemberLeaves />
+              </div>
+            </>
+          </ProtectedRoute>
+        } 
+      />
+      <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} />} />
+    </Routes>
   );
 }
 

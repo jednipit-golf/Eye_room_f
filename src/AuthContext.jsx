@@ -12,25 +12,23 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const checkAuth = async () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const response = await authAPI.getMe();
-        setUser(response.data.user);
-      } catch (error) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-      }
+    try {
+      // ตรวจสอบว่ามี cookies หรือไม่โดยเรียก /auth/me
+      const response = await authAPI.getMe();
+      setUser(response.data.user);
+    } catch (error) {
+      // ถ้าไม่มี cookies หรือ token หมดอายุ
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const login = async (credentials) => {
     try {
       const response = await authAPI.login(credentials);
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      // Backend จะส่ง cookies มาให้อัตโนมัติ ไม่ต้องเก็บใน localStorage
+      const { user } = response.data;
       setUser(user);
       return { success: true };
     } catch (error) {
@@ -41,12 +39,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setUser(null);
-    // Reload หน้าเพื่อ clear cache และ state ทั้งหมด
-    window.location.href = '/';
+  const logout = async () => {
+    try {
+      // เรียก API เพื่อลบ refresh token จาก database และ clear cookies
+      await authAPI.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setUser(null);
+      // ไม่ต้อง reload หน้า ให้ App.jsx จัดการ navigation แทน
+    }
   };
 
   return (

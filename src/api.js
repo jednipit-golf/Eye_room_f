@@ -7,32 +7,47 @@ const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
+  withCredentials: true // สำคัญ! เพื่อส่ง cookies ไปกับทุก request
 });
 
-// เพิ่ม token ใน header ทุกครั้งที่ส่ง request
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// จัดการ response errors
+// Response interceptor - จัดการ token expired และ auto-refresh
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/';
+  async (error) => {
+    const originalRequest = error.config;
+
+    // ถ้า token หมดอายุและยังไม่เคย retry
+    if (
+      error.response?.status === 401 && 
+      error.response?.data?.expired && 
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      try {
+        // เรียก refresh token endpoint
+        await axios.post(
+          `${API_URL}/auth/refresh-token`,
+          {},
+          { withCredentials: true }
+        );
+        
+        // ลองส่ง request เดิมอีกครั้งด้วย access token ใหม่
+        return api(originalRequest);
+      } catch (refreshError) {
+        // ถ้า refresh token หมดอายุ หรือไม่ valid - ไม่ต้อง redirect ที่นี่
+        // ให้ App.jsx จัดการแทน
+        return Promise.reject(refreshError);
+      }
     }
+
+    // ซ่อน error 401 ของ /auth/me เพราะเป็น initial check ที่ยังไม่ได้ login
+    if (error.response?.status === 401 && originalRequest.url?.includes('/auth/me')) {
+      // Silent fail - ไม่ log error
+      return Promise.reject(error);
+    }
+
     return Promise.reject(error);
   }
 );
@@ -41,7 +56,7 @@ api.interceptors.response.use(
 export const authAPI = {
   login: (credentials) => api.post('/auth/login', credentials),
   getMe: () => api.get('/auth/me'),
-  logout: () => api.get('/auth/logout'),
+  logout: () => api.post('/auth/logout'),
   getAllMembers: () => api.get('/auth/members'),
 };
 
