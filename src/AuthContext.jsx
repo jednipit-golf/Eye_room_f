@@ -13,6 +13,13 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
+      // ถ้าอยู่หน้า login (root path) ไม่ต้องเช็ค auth
+      if (window.location.pathname === '/') {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
       // ตรวจสอบว่ามี cookies หรือไม่โดยเรียก /auth/me
       const response = await authAPI.getMe();
       setUser(response.data.user);
