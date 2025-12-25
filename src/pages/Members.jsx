@@ -11,7 +11,7 @@ function Members() {
   const [error, setError] = useState('');
   const [filterRole, setFilterRole] = useState('all');
 
-  // ป้องกัน non-admin เข้าถึง
+  // Authorization check - only admin and system-admin can access
   useEffect(() => {
     if (user && user.role !== 'admin' && user.role !== 'system-admin') {
       alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');

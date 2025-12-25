@@ -11,14 +11,20 @@ function ManageLeaves() {
   const [filter, setFilter] = useState('pending');
   const [selectedLeave, setSelectedLeave] = useState(null);
 
+  // Authorization check - only admin and system-admin can access
   useEffect(() => {
-    if (user?.role !== 'admin' && user?.role !== 'system-admin') {
+    if (user && user.role !== 'admin' && user.role !== 'system-admin') {
       alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
       navigate('/');
       return;
     }
-    fetchLeaves();
-  }, [filter, user, navigate]);
+  }, [user, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchLeaves();
+    }
+  }, [filter, user]);
 
   const fetchLeaves = async () => {
     try {

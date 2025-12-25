@@ -12,7 +12,7 @@ function ManageUsers() {
   // Authorization check - only system-admin can access
   useEffect(() => {
     if (user && user.role !== 'system-admin') {
-      alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้ (สำหรับ System Admin เท่านั้น)');
+      alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
       navigate('/');
       return;
     }
