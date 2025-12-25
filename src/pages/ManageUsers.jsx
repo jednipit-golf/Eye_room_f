@@ -78,7 +78,7 @@ function ManageUsers() {
     if (!registerData.telephone.startsWith('0')) {
       setRegisterMessage({ 
         type: 'error', 
-        text: 'wrong telephone number' 
+        text: 'กรุณากรอกเบอร์โทรศัพท์ที่ขึ้นต้นด้วยเลข 0' 
       });
       setIsRegistering(false);
       return;
