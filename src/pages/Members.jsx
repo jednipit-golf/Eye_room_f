@@ -14,6 +14,7 @@ function Members() {
   // ป้องกัน non-admin เข้าถึง
   useEffect(() => {
     if (user && user.role !== 'admin' && user.role !== 'system-admin') {
+      alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
       navigate('/');
     }
   }, [user, navigate]);
