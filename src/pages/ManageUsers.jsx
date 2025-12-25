@@ -9,7 +9,8 @@ function ManageUsers() {
   const [registerData, setRegisterData] = useState({
     name: '',
     telephone: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const [registerMessage, setRegisterMessage] = useState({ type: '', text: '' });
   const [isRegistering, setIsRegistering] = useState(false);
@@ -17,7 +18,8 @@ function ManageUsers() {
   // Reset Password State
   const [resetData, setResetData] = useState({
     telephone: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const [resetMessage, setResetMessage] = useState({ type: '', text: '' });
   const [isResetting, setIsResetting] = useState(false);
@@ -28,6 +30,16 @@ function ManageUsers() {
     setIsRegistering(true);
     setRegisterMessage({ type: '', text: '' });
 
+    // Validate password match
+    if (registerData.password !== registerData.confirmPassword) {
+      setRegisterMessage({ 
+        type: 'error', 
+        text: 'รหัสผ่านไม่ตรงกัน กรุณาตรวจสอบอีกครั้ง' 
+      });
+      setIsRegistering(false);
+      return;
+    }
+
     try {
       const response = await authAPI.register(registerData);
       
@@ -37,7 +49,7 @@ function ManageUsers() {
           text: `ลงทะเบียนสำเร็จ! ผู้ใช้: ${registerData.name}` 
         });
         // Clear form
-        setRegisterData({ name: '', telephone: '', password: '' });
+        setRegisterData({ name: '', telephone: '', password: '', confirmPassword: '' });
       }
     } catch (error) {
       setRegisterMessage({ 
@@ -55,6 +67,16 @@ function ManageUsers() {
     setIsResetting(true);
     setResetMessage({ type: '', text: '' });
 
+    // Validate password match
+    if (resetData.password !== resetData.confirmPassword) {
+      setResetMessage({ 
+        type: 'error', 
+        text: 'รหัสผ่านไม่ตรงกัน กรุณาตรวจสอบอีกครั้ง' 
+      });
+      setIsResetting(false);
+      return;
+    }
+
     try {
       const response = await authAPI.resetPassword(resetData);
       
@@ -64,7 +86,7 @@ function ManageUsers() {
           text: response.data.message || 'รีเซ็ตรหัสผ่านสำเร็จ' 
         });
         // Clear form
-        setResetData({ telephone: '', password: '' });
+        setResetData({ telephone: '', password: '', confirmPassword: '' });
       }
     } catch (error) {
       setResetMessage({ 
@@ -144,6 +166,21 @@ function ManageUsers() {
               <small>รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร</small>
             </div>
 
+            <div className="form-group">
+              <label htmlFor="register-confirm-password">ยืนยันรหัสผ่าน *</label>
+              <input
+                type="password"
+                id="register-confirm-password"
+                value={registerData.confirmPassword}
+                onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
+                placeholder="กรอกรหัสผ่านอีกครั้ง"
+                minLength="6"
+                required
+                disabled={isRegistering}
+              />
+              <small>กรอกรหัสผ่านอีกครั้งเพื่อยืนยัน</small>
+            </div>
+
             {registerMessage.text && (
               <div className={`message ${registerMessage.type}`}>
                 {registerMessage.text}
@@ -193,6 +230,21 @@ function ManageUsers() {
                 disabled={isResetting}
               />
               <small>รหัสผ่านใหม่ต้องมีความยาวอย่างน้อย 6 ตัวอักษร</small>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="reset-confirm-password">ยืนยันรหัสผ่านใหม่ *</label>
+              <input
+                type="password"
+                id="reset-confirm-password"
+                value={resetData.confirmPassword}
+                onChange={(e) => setResetData({ ...resetData, confirmPassword: e.target.value })}
+                placeholder="กรอกรหัสผ่านอีกครั้ง"
+                minLength="6"
+                required
+                disabled={isResetting}
+              />
+              <small>กรอกรหัสผ่านอีกครั้งเพื่อยืนยัน</small>
             </div>
 
             {resetMessage.text && (
