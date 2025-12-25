@@ -74,7 +74,6 @@ function ManageUsers() {
       return;
     }
 
-    
     // Validate phone number starts with 0
     if (!registerData.telephone.startsWith('0')) {
       setRegisterMessage({ 
