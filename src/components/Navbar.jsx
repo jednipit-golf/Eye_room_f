@@ -18,6 +18,9 @@ function Navbar() {
     if (path === '/members') {
       return location.pathname === '/members' || location.pathname.startsWith('/members/');
     }
+    if (path === '/manage-users') {
+      return location.pathname === '/manage-users';
+    }
     return location.pathname === path;
   };
 
@@ -33,6 +36,9 @@ function Navbar() {
             <li><Link to="/manage-leaves" className={isActive('/manage-leaves') ? 'active' : ''}>จัดการคำขอลา</Link></li>
             <li><Link to="/members" className={isActive('/members') ? 'active' : ''}>สมาชิกทั้งหมด</Link></li>
           </>
+        )}
+        {user?.role === 'system-admin' && (
+          <li><Link to="/manage-users" className={isActive('/manage-users') ? 'active' : ''}>จัดการผู้ใช้งาน</Link></li>
         )}
       </ul>
       <div className="nav-user">

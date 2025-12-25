@@ -84,6 +84,8 @@ export const authAPI = {
   getMe: () => api.get('/auth/me'),
   logout: () => api.post('/auth/logout'),
   getAllMembers: () => api.get('/auth/members'),
+  register: (data) => api.post('/auth/register', data),
+  resetPassword: (data) => api.post('/auth/reset-password', data),
 };
 
 // Leave APIs

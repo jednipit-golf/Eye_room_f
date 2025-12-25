@@ -7,6 +7,7 @@ import NewLeave from './pages/NewLeave';
 import ManageLeaves from './pages/ManageLeaves';
 import Members from './pages/Members';
 import MemberLeaves from './pages/MemberLeaves';
+import ManageUsers from './pages/ManageUsers';
 import Navbar from './components/Navbar';
 
 // Protected Route Component
@@ -104,6 +105,19 @@ function AppContent() {
               <Navbar />
               <div className="container">
                 <MemberLeaves />
+              </div>
+            </>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/manage-users" 
+        element={
+          <ProtectedRoute>
+            <>
+              <Navbar />
+              <div className="container">
+                <ManageUsers />
               </div>
             </>
           </ProtectedRoute>

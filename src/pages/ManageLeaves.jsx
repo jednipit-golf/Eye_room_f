@@ -1,21 +1,29 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { leaveAPI } from '../api';
 
 function ManageLeaves() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [leaves, setLeaves] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('pending');
   const [selectedLeave, setSelectedLeave] = useState(null);
 
+  // Authorization check - only admin and system-admin can access
   useEffect(() => {
-    if (user?.role !== 'admin' && user?.role !== 'system-admin') {
+    if (user && user.role !== 'admin' && user.role !== 'system-admin') {
       alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
-      window.location.href = '/';
+      navigate('/');
       return;
     }
-    fetchLeaves();
+  }, [user, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchLeaves();
+    }
   }, [filter, user]);
 
   const fetchLeaves = async () => {
