@@ -1,9 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../AuthContext';
 import { authAPI } from '../api';
 import '../index.css';
 
 function ManageUsers() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('register'); // 'register' หรือ 'reset'
+  
+  // Authorization check - only system-admin can access
+  useEffect(() => {
+    if (user && user.role !== 'system-admin') {
+      alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้ (สำหรับ System Admin เท่านั้น)');
+      window.location.href = '/';
+      return;
+    }
+  }, [user]);
   
   // Register User State
   const [registerData, setRegisterData] = useState({
