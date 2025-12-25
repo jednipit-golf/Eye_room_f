@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { authAPI } from '../api';
 import '../index.css';
 
 function ManageUsers() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('register'); // 'register' หรือ 'reset'
   
@@ -11,10 +13,10 @@ function ManageUsers() {
   useEffect(() => {
     if (user && user.role !== 'system-admin') {
       alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้ (สำหรับ System Admin เท่านั้น)');
-      window.location.href = '/';
+      navigate('/');
       return;
     }
-  }, [user]);
+  }, [user, navigate]);
   
   // Register User State
   const [registerData, setRegisterData] = useState({

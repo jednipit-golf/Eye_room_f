@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { leaveAPI } from '../api';
 
 function ManageLeaves() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [leaves, setLeaves] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,11 +14,11 @@ function ManageLeaves() {
   useEffect(() => {
     if (user?.role !== 'admin' && user?.role !== 'system-admin') {
       alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
-      window.location.href = '/';
+      navigate('/');
       return;
     }
     fetchLeaves();
-  }, [filter, user]);
+  }, [filter, user, navigate]);
 
   const fetchLeaves = async () => {
     try {
