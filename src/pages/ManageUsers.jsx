@@ -141,7 +141,7 @@ function ManageUsers() {
                 id="name"
                 value={registerData.name}
                 onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
-                placeholder="Jan doe"
+                placeholder="Jan Doe"
                 required
                 disabled={isRegistering}
               />
