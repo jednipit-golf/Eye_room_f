@@ -35,11 +35,54 @@ function ManageUsers() {
   const [resetMessage, setResetMessage] = useState({ type: '', text: '' });
   const [isResetting, setIsResetting] = useState(false);
 
+  // Format phone number as XXX-XXX-XXXX
+  const formatPhoneNumber = (value) => {
+    // Remove all non-digits
+    const phoneNumber = value.replace(/\D/g, '');
+    
+    // Limit to 10 digits
+    const limitedPhone = phoneNumber.slice(0, 10);
+    
+    // Format as XXX-XXX-XXXX
+    if (limitedPhone.length <= 3) {
+      return limitedPhone;
+    } else if (limitedPhone.length <= 6) {
+      return `${limitedPhone.slice(0, 3)}-${limitedPhone.slice(3)}`;
+    } else {
+      return `${limitedPhone.slice(0, 3)}-${limitedPhone.slice(3, 6)}-${limitedPhone.slice(6)}`;
+    }
+  };
+
+  // Get raw phone number (digits only)
+  const getRawPhoneNumber = (value) => {
+    return value.replace(/\D/g, '');
+  };
+
   // Handle Register User
   const handleRegister = async (e) => {
     e.preventDefault();
     setIsRegistering(true);
     setRegisterMessage({ type: '', text: '' });
+
+    // Validate phone number is exactly 10 digits
+    if (registerData.telephone.length !== 10) {
+      setRegisterMessage({ 
+        type: 'error', 
+        text: 'กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก' 
+      });
+      setIsRegistering(false);
+      return;
+    }
+
+    // Validate phone number starts with 0
+    if (!registerData.telephone.startsWith('0')) {
+      setRegisterMessage({ 
+        type: 'error', 
+        text: 'wrong telephone number' 
+      });
+      setIsRegistering(false);
+      return;
+    }
 
     // Validate password match
     if (registerData.password !== registerData.confirmPassword) {
@@ -77,6 +120,16 @@ function ManageUsers() {
     e.preventDefault();
     setIsResetting(true);
     setResetMessage({ type: '', text: '' });
+
+    // Validate phone number is exactly 10 digits
+    if (resetData.telephone.length !== 10) {
+      setResetMessage({ 
+        type: 'error', 
+        text: 'กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก' 
+      });
+      setIsResetting(false);
+      return;
+    }
 
     // Validate password match
     if (resetData.password !== resetData.confirmPassword) {
@@ -152,10 +205,13 @@ function ManageUsers() {
               <input
                 type="tel"
                 id="register-telephone"
-                value={registerData.telephone}
-                onChange={(e) => setRegisterData({ ...registerData, telephone: e.target.value })}
-                placeholder="0888888888"
-                pattern="[0-9]{10}"
+                value={formatPhoneNumber(registerData.telephone)}
+                onChange={(e) => {
+                  const rawPhone = getRawPhoneNumber(e.target.value);
+                  setRegisterData({ ...registerData, telephone: rawPhone });
+                }}
+                placeholder="088-888-8888"
+                maxLength="12"
                 required
                 disabled={isRegistering}
               />
@@ -218,14 +274,17 @@ function ManageUsers() {
               <input
                 type="tel"
                 id="reset-telephone"
-                value={resetData.telephone}
-                onChange={(e) => setResetData({ ...resetData, telephone: e.target.value })}
-                placeholder="0888888888"
-                pattern="[0-9]{10}"
+                value={formatPhoneNumber(resetData.telephone)}
+                onChange={(e) => {
+                  const rawPhone = getRawPhoneNumber(e.target.value);
+                  setResetData({ ...resetData, telephone: rawPhone });
+                }}
+                placeholder="088-888-8888"
+                maxLength="12"
                 required
                 disabled={isResetting}
               />
-              <small>ระบุเบอร์โทรของผู้ใช้ที่ต้องการรีเซ็ตรหัสผ่าน</small>
+              <small>ระบุเบอร์โทรของผู้ใช้ที่ต้องการรีเซ็ตรหัสผ่าน </small>
             </div>
 
             <div className="form-group">
