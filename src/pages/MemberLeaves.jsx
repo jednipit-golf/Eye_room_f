@@ -77,9 +77,9 @@ function MemberLeaves() {
       cancelled: 'badge-cancelled'
     };
     const labels = {
-      pending: 'รออนุมัติ',
-      approved: 'อนุมัติ',
-      rejected: 'ไม่อนุมัติ',
+      pending: 'รออนุญาต',
+      approved: 'อนุญาต',
+      rejected: 'ไม่อนุญาต',
       cancelled: 'ยกเลิก'
     };
     return <span className={`badge ${badges[status]}`}>{labels[status]}</span>;
@@ -186,7 +186,7 @@ function MemberLeaves() {
             <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#2b8a3e' }}>
               {member?.stats.approved}
             </p>
-            <p style={{ margin: 0, color: '#2b8a3e' }}>อนุมัติ</p>
+            <p style={{ margin: 0, color: '#2b8a3e' }}>อนุญาต</p>
           </div>
           <div 
             style={{ 
@@ -232,7 +232,7 @@ function MemberLeaves() {
             <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#c92a2a' }}>
               {member?.stats.rejected}
             </p>
-            <p style={{ margin: 0, color: '#c92a2a' }}>ไม่อนุมัติ</p>
+            <p style={{ margin: 0, color: '#c92a2a' }}>ไม่อนุญาต</p>
           </div>
           <div 
             style={{ 
@@ -255,7 +255,7 @@ function MemberLeaves() {
             <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#1971c2' }}>
               {member?.stats.totalDaysApproved}
             </p>
-            <p style={{ margin: 0, color: '#1971c2' }}>วันที่อนุมัติ</p>
+            <p style={{ margin: 0, color: '#1971c2' }}>วันที่อนุญาต</p>
           </div>
         </div>
       </div>
@@ -265,9 +265,9 @@ function MemberLeaves() {
         <h3 style={{ marginBottom: '1rem' }}>
           ประวัติการลา ({filteredLeaves.length} รายการ
           {statusFilter !== 'all' && ` - ${
-            statusFilter === 'approved' ? 'อนุมัติ' :
+            statusFilter === 'approved' ? 'อนุญาต' :
             statusFilter === 'pending' ? 'รอพิจารณา' :
-            statusFilter === 'rejected' ? 'ไม่อนุมัติ' : ''
+            statusFilter === 'rejected' ? 'ไม่อนุญาต' : ''
           }`})
         </h3>
         {filteredLeaves.length > 0 ? (
@@ -307,9 +307,9 @@ function MemberLeaves() {
           <div style={{ textAlign: 'center', padding: '3rem', color: '#666' }}>
             <p style={{ fontSize: '1.2rem' }}>
               {statusFilter === 'all' ? 'ยังไม่มีประวัติการลา' : `ไม่มีประวัติการลา${
-                statusFilter === 'approved' ? 'ที่อนุมัติ' :
+                statusFilter === 'approved' ? 'ที่อนุญาต' :
                 statusFilter === 'pending' ? 'ที่รอพิจารณา' :
-                statusFilter === 'rejected' ? 'ที่ไม่อนุมัติ' : ''
+                statusFilter === 'rejected' ? 'ที่ไม่อนุญาต' : ''
               }`}
             </p>
           </div>
