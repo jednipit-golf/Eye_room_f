@@ -49,9 +49,9 @@ function Members() {
 
   const getStatusBadge = (status) => {
     const statusConfig = {
-      pending: { label: 'รออนุมัติ', class: 'badge-warning' },
-      approved: { label: 'อนุมัติ', class: 'badge-success' },
-      rejected: { label: 'ไม่อนุมัติ', class: 'badge-error' }
+      pending: { label: 'รออนุญาต', class: 'badge-warning' },
+      approved: { label: 'อนุญาต', class: 'badge-success' },
+      rejected: { label: 'ไม่อนุญาต', class: 'badge-error' }
     };
     const config = statusConfig[status] || { label: status, class: '' };
     return <span className={`badge ${config.class}`}>{config.label}</span>;
@@ -139,9 +139,9 @@ function Members() {
                     <p style={{ margin: '0.25rem 0' }}>📱 {member.telephone}</p>
                     <p style={{ margin: '0.25rem 0' }}>
                       📊 การลาทั้งหมด: {member.stats.total} ครั้ง | 
-                      อนุมัติ: {member.stats.approved} ครั้ง ({member.stats.totalDaysApproved} วัน) | 
+                      อนุญาต: {member.stats.approved} ครั้ง ({member.stats.totalDaysApproved} วัน) | 
                       รอพิจารณา: {member.stats.pending} ครั้ง | 
-                      ไม่อนุมัติ: {member.stats.rejected} ครั้ง
+                      ไม่อนุญาต: {member.stats.rejected} ครั้ง
                     </p>
                   </div>
                 </div>
@@ -159,7 +159,7 @@ function Members() {
         <ul style={{ marginTop: '0.5rem', marginLeft: '1.5rem' }}>
           <li>แสดงรายชื่อสมาชิกทั้งหมดในระบบ</li>
           <li>คลิกที่การ์ดสมาชิกเพื่อดูประวัติการลาโดยละเอียด</li>
-          <li>แสดงสถิติการลาของแต่ละคน (อนุมัติ, รอพิจารณา, ไม่อนุมัติ)</li>
+          <li>แสดงสถิติการลาของแต่ละคน (อนุญาต, รอพิจารณา, ไม่อนุญาต)</li>
         </ul>
       </div>
     </div>

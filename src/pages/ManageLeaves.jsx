@@ -40,16 +40,16 @@ function ManageLeaves() {
   };
 
   const handleApprove = async (leaveId) => {
-    if (!window.confirm('คุณต้องการอนุมัติคำขอลานี้หรือไม่?')) {
+    if (!window.confirm('คุณต้องการอนุญาตคำขอลานี้หรือไม่?')) {
       return;
     }
 
     try {
       await leaveAPI.approveLeave(leaveId);
-      alert('อนุมัติคำขอลาเรียบร้อยแล้ว');
+      alert('อนุญาตคำขอลาเรียบร้อยแล้ว');
       fetchLeaves();
     } catch (error) {
-      alert(error.response?.data?.message || 'เกิดข้อผิดพลาดในการอนุมัติคำขอลา');
+      alert(error.response?.data?.message || 'เกิดข้อผิดพลาดในการอนุญาตคำขอลา');
     }
   };
 
@@ -76,9 +76,9 @@ function ManageLeaves() {
       cancelled: 'badge-cancelled'
     };
     const labels = {
-      pending: 'รออนุมัติ',
-      approved: 'อนุมัติ',
-      rejected: 'ไม่อนุมัติ',
+      pending: 'รออนุญาต',
+      approved: 'อนุญาต',
+      rejected: 'ไม่อนุญาต',
       cancelled: 'ยกเลิก'
     };
     return <span className={`badge ${badges[status]}`}>{labels[status]}</span>;
@@ -105,19 +105,19 @@ function ManageLeaves() {
             className={`btn ${filter === 'pending' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setFilter('pending')}
           >
-            รออนุมัติ
+            รออนุญาต
           </button>
           <button
             className={`btn ${filter === 'approved' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setFilter('approved')}
           >
-            อนุมัติแล้ว
+            อนุญาตแล้ว
           </button>
           <button
             className={`btn ${filter === 'rejected' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setFilter('rejected')}
           >
-            ไม่อนุมัติ
+            ไม่อนุญาต
           </button>
         </div>
       </div>
@@ -163,14 +163,14 @@ function ManageLeaves() {
                           style={{ marginRight: '0.5rem', padding: '0.4rem 0.8rem', fontSize: '0.875rem' }}
                           onClick={() => handleApprove(leave._id)}
                         >
-                          อนุมัติ
+                          อนุญาต
                         </button>
                         <button
                           className="btn btn-danger"
                           style={{ padding: '0.4rem 0.8rem', fontSize: '0.875rem' }}
                           onClick={() => handleReject(leave._id)}
                         >
-                          ไม่อนุมัติ
+                          ไม่อนุญาต
                         </button>
                       </>
                     )}
@@ -237,13 +237,13 @@ function ManageLeaves() {
                 </tr>
                 {selectedLeave.approvedBy && (
                   <tr>
-                    <td><strong>ผู้อนุมัติ</strong></td>
+                    <td><strong>ผู้อนุญาต</strong></td>
                     <td>{selectedLeave.approvedBy.name}</td>
                   </tr>
                 )}
                 {(selectedLeave.status === 'approved' || selectedLeave.status === 'rejected') && selectedLeave.approvedDate && (
                   <tr>
-                    <td><strong>{selectedLeave.status === 'approved' ? 'วันที่อนุมัติ' : 'วันที่ไม่อนุมัติ'}</strong></td>
+                    <td><strong>{selectedLeave.status === 'approved' ? 'วันที่อนุญาต' : 'วันที่ไม่อนุญาต'}</strong></td>
                     <td>{selectedLeave.formattedApprovedDate || new Date(selectedLeave.approvedDate).toLocaleString('th-TH')}</td>
                   </tr>
                 )}
@@ -260,13 +260,13 @@ function ManageLeaves() {
                   className="btn btn-success"
                   onClick={() => handleApprove(selectedLeave._id)}
                 >
-                  อนุมัติ
+                  อนุญาต
                 </button>
                 <button 
                   className="btn btn-danger"
                   onClick={() => handleReject(selectedLeave._id)}
                 >
-                  ไม่อนุมัติ
+                  ไม่อนุญาต
                 </button>
                 <button 
                   className="btn btn-secondary"

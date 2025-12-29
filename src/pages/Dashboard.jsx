@@ -36,9 +36,9 @@ function Dashboard() {
       cancelled: 'badge-cancelled'
     };
     const labels = {
-      pending: 'รออนุมัติ',
-      approved: 'อนุมัติ',
-      rejected: 'ไม่อนุมัติ',
+      pending: 'รออนุญาต',
+      approved: 'อนุญาต',
+      rejected: 'ไม่อนุญาต',
       cancelled: 'ยกเลิก'
     };
     return <span className={`badge ${badges[status]}`}>{labels[status]}</span>;
