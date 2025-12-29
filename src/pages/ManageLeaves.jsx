@@ -8,7 +8,7 @@ function ManageLeaves() {
   const { user } = useAuth();
   const [leaves, setLeaves] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('pending');
+  const [filter, setFilter] = useState('all');
   const [selectedLeave, setSelectedLeave] = useState(null);
 
   // Authorization check - only admin and system-admin can access
