@@ -243,7 +243,7 @@ function ManageLeaves() {
                 )}
                 {(selectedLeave.status === 'approved' || selectedLeave.status === 'rejected') && selectedLeave.approvedDate && (
                   <tr>
-                    <td><strong>{selectedLeave.status === 'approved' ? 'วันที่อนุญาต' : 'วันที่ไม่อนุญาต'}</strong></td>
+                    <td><strong>วันที่พิจารณา</strong></td>
                     <td>{selectedLeave.formattedApprovedDate || new Date(selectedLeave.approvedDate).toLocaleString('th-TH')}</td>
                   </tr>
                 )}
