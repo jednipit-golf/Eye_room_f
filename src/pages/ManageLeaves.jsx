@@ -45,8 +45,17 @@ function ManageLeaves() {
     }
 
     try {
-      await leaveAPI.approveLeave(leaveId);
+      const response = await leaveAPI.approveLeave(leaveId);
       alert('อนุญาตคำขอลาเรียบร้อยแล้ว');
+      
+      // อัพเดทข้อมูลใน selectedLeave ถ้า modal เปิดอยู่
+      if (selectedLeave && selectedLeave._id === leaveId) {
+        const updatedLeave = response.data?.data || response.data?.leave;
+        if (updatedLeave) {
+          setSelectedLeave(updatedLeave);
+        }
+      }
+      
       fetchLeaves();
     } catch (error) {
       alert(error.response?.data?.message || 'เกิดข้อผิดพลาดในการอนุญาตคำขอลา');
@@ -59,9 +68,17 @@ function ManageLeaves() {
     }
 
     try {
-      await leaveAPI.rejectLeave(leaveId);
+      const response = await leaveAPI.rejectLeave(leaveId);
       alert('ปฏิเสธคำขอลาเรียบร้อยแล้ว');
-      setSelectedLeave(null);
+      
+      // อัพเดทข้อมูลใน selectedLeave ถ้า modal เปิดอยู่
+      if (selectedLeave && selectedLeave._id === leaveId) {
+        const updatedLeave = response.data?.data || response.data?.leave;
+        if (updatedLeave) {
+          setSelectedLeave(updatedLeave);
+        }
+      }
+      
       fetchLeaves();
     } catch (error) {
       alert(error.response?.data?.message || 'เกิดข้อผิดพลาดในการปฏิเสธคำขอลา');
