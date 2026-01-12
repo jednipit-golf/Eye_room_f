@@ -45,14 +45,19 @@ function ManageLeaves() {
     }
 
     try {
-      const response = await leaveAPI.approveLeave(leaveId);
+      await leaveAPI.approveLeave(leaveId);
       alert('อนุญาตคำขอลาเรียบร้อยแล้ว');
       
-      // อัพเดทข้อมูลใน selectedLeave ถ้า modal เปิดอยู่
+      // ดึงข้อมูลล่าสุดของคำขอลานี้เพื่ออัพเดท modal
       if (selectedLeave && selectedLeave._id === leaveId) {
-        const updatedLeave = response.data?.data || response.data?.leave;
-        if (updatedLeave) {
-          setSelectedLeave(updatedLeave);
+        try {
+          const detailResponse = await leaveAPI.getLeaveById(leaveId);
+          const updatedLeave = detailResponse.data?.data || detailResponse.data;
+          if (updatedLeave) {
+            setSelectedLeave(updatedLeave);
+          }
+        } catch (detailError) {
+          console.error('Error fetching updated leave details:', detailError);
         }
       }
       
@@ -68,14 +73,19 @@ function ManageLeaves() {
     }
 
     try {
-      const response = await leaveAPI.rejectLeave(leaveId);
+      await leaveAPI.rejectLeave(leaveId);
       alert('ปฏิเสธคำขอลาเรียบร้อยแล้ว');
       
-      // อัพเดทข้อมูลใน selectedLeave ถ้า modal เปิดอยู่
+      // ดึงข้อมูลล่าสุดของคำขอลานี้เพื่ออัพเดท modal
       if (selectedLeave && selectedLeave._id === leaveId) {
-        const updatedLeave = response.data?.data || response.data?.leave;
-        if (updatedLeave) {
-          setSelectedLeave(updatedLeave);
+        try {
+          const detailResponse = await leaveAPI.getLeaveById(leaveId);
+          const updatedLeave = detailResponse.data?.data || detailResponse.data;
+          if (updatedLeave) {
+            setSelectedLeave(updatedLeave);
+          }
+        } catch (detailError) {
+          console.error('Error fetching updated leave details:', detailError);
         }
       }
       
