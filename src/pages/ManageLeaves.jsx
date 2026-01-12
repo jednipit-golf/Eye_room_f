@@ -46,18 +46,27 @@ function ManageLeaves() {
 
     try {
       const response = await leaveAPI.approveLeave(leaveId);
+      console.log('Approve response:', response.data);
+      
       alert('อนุญาตคำขอลาเรียบร้อยแล้ว');
       
-      // อัพเดทข้อมูลใน selectedLeave ถ้า modal เปิดอยู่
+      // ดึงข้อมูลล่าสุดของคำขอลานี้เพื่ออัพเดท modal
       if (selectedLeave && selectedLeave._id === leaveId) {
-        const updatedLeave = response.data?.data || response.data?.leave;
-        if (updatedLeave) {
-          setSelectedLeave(updatedLeave);
+        try {
+          const detailResponse = await leaveAPI.getLeaveById(leaveId);
+          const updatedLeave = detailResponse.data?.data || detailResponse.data;
+          console.log('Updated leave detail:', updatedLeave);
+          if (updatedLeave) {
+            setSelectedLeave(updatedLeave);
+          }
+        } catch (detailError) {
+          console.error('Error fetching updated leave details:', detailError);
         }
       }
       
       fetchLeaves();
     } catch (error) {
+      console.error('Error approving leave:', error);
       alert(error.response?.data?.message || 'เกิดข้อผิดพลาดในการอนุญาตคำขอลา');
     }
   };
@@ -69,18 +78,27 @@ function ManageLeaves() {
 
     try {
       const response = await leaveAPI.rejectLeave(leaveId);
+      console.log('Reject response:', response.data);
+      
       alert('ปฏิเสธคำขอลาเรียบร้อยแล้ว');
       
-      // อัพเดทข้อมูลใน selectedLeave ถ้า modal เปิดอยู่
+      // ดึงข้อมูลล่าสุดของคำขอลานี้เพื่ออัพเดท modal
       if (selectedLeave && selectedLeave._id === leaveId) {
-        const updatedLeave = response.data?.data || response.data?.leave;
-        if (updatedLeave) {
-          setSelectedLeave(updatedLeave);
+        try {
+          const detailResponse = await leaveAPI.getLeaveById(leaveId);
+          const updatedLeave = detailResponse.data?.data || detailResponse.data;
+          console.log('Updated leave detail:', updatedLeave);
+          if (updatedLeave) {
+            setSelectedLeave(updatedLeave);
+          }
+        } catch (detailError) {
+          console.error('Error fetching updated leave details:', detailError);
         }
       }
       
       fetchLeaves();
     } catch (error) {
+      console.error('Error rejecting leave:', error);
       alert(error.response?.data?.message || 'เกิดข้อผิดพลาดในการปฏิเสธคำขอลา');
     }
   };
