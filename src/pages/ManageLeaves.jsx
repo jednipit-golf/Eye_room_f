@@ -45,7 +45,9 @@ function ManageLeaves() {
     }
 
     try {
-      await leaveAPI.approveLeave(leaveId);
+      const response = await leaveAPI.approveLeave(leaveId);
+      console.log('Approve response:', response.data);
+      
       alert('อนุญาตคำขอลาเรียบร้อยแล้ว');
       
       // ดึงข้อมูลล่าสุดของคำขอลานี้เพื่ออัพเดท modal
@@ -53,6 +55,7 @@ function ManageLeaves() {
         try {
           const detailResponse = await leaveAPI.getLeaveById(leaveId);
           const updatedLeave = detailResponse.data?.data || detailResponse.data;
+          console.log('Updated leave detail:', updatedLeave);
           if (updatedLeave) {
             setSelectedLeave(updatedLeave);
           }
@@ -63,6 +66,7 @@ function ManageLeaves() {
       
       fetchLeaves();
     } catch (error) {
+      console.error('Error approving leave:', error);
       alert(error.response?.data?.message || 'เกิดข้อผิดพลาดในการอนุญาตคำขอลา');
     }
   };
@@ -73,7 +77,9 @@ function ManageLeaves() {
     }
 
     try {
-      await leaveAPI.rejectLeave(leaveId);
+      const response = await leaveAPI.rejectLeave(leaveId);
+      console.log('Reject response:', response.data);
+      
       alert('ปฏิเสธคำขอลาเรียบร้อยแล้ว');
       
       // ดึงข้อมูลล่าสุดของคำขอลานี้เพื่ออัพเดท modal
@@ -81,6 +87,7 @@ function ManageLeaves() {
         try {
           const detailResponse = await leaveAPI.getLeaveById(leaveId);
           const updatedLeave = detailResponse.data?.data || detailResponse.data;
+          console.log('Updated leave detail:', updatedLeave);
           if (updatedLeave) {
             setSelectedLeave(updatedLeave);
           }
@@ -91,6 +98,7 @@ function ManageLeaves() {
       
       fetchLeaves();
     } catch (error) {
+      console.error('Error rejecting leave:', error);
       alert(error.response?.data?.message || 'เกิดข้อผิดพลาดในการปฏิเสธคำขอลา');
     }
   };
