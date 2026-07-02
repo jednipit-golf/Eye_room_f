@@ -34,12 +34,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const response = await authAPI.login(credentials);
-      const { user, accessToken } = response.data;
-      
-      // เก็บ token ใน localStorage สำหรับ iOS/Safari
-      if (accessToken) {
-        localStorage.setItem('accessToken', accessToken);
-      }
+      const { user } = response.data;
       
       setUser(user);
       return { success: true };
@@ -58,8 +53,6 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // ลบ token จาก localStorage
-      localStorage.removeItem('accessToken');
       setUser(null);
     }
   };
