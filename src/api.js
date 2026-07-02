@@ -11,9 +11,28 @@ const api = axios.create({
   withCredentials: true // สำคัญ! เพื่อส่ง cookies ไปกับทุก request
 });
 
+// Request interceptor - เพิ่ม Authorization header สำหรับ iOS/Safari
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 // Response interceptor - จัดการ token expired และ auto-refresh
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // เก็บ access token ใหม่ถ้ามีการส่งมาใน response (สำหรับ iOS)
+    const newToken = response.data?.accessToken;
+    if (newToken) {
+      localStorage.setItem('accessToken', newToken);
+    }
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
 
@@ -32,11 +51,19 @@ api.interceptors.response.use(
           {},
           { withCredentials: true }
         );
-        void refreshResponse;
         
-        // ลองส่ง request เดิมอีกครั้ง หลังจาก backend ตั้ง accessToken cookie ใหม่
+        // เก็บ access token ใหม่
+        const newToken = refreshResponse.data?.accessToken;
+        if (newToken) {
+          localStorage.setItem('accessToken', newToken);
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        }
+        
+        // ลองส่ง request เดิมอีกครั้งด้วย access token ใหม่
         return api(originalRequest);
       } catch (refreshError) {
+        // ถ้า refresh token หมดอายุ - ลบ token และ logout
+        localStorage.removeItem('accessToken');
         return Promise.reject(refreshError);
       }
     }
