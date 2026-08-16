@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { authAPI } from '../api';
+import { formatBangkokDate } from '../utils/date';
 
 function Members() {
   const navigate = useNavigate();
@@ -40,11 +41,7 @@ function Members() {
   };
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear() + 543;
-    return `${day}/${month}/${year}`;
+    return formatBangkokDate(dateString);
   };
 
   const getStatusBadge = (status) => {
