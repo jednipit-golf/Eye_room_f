@@ -9,6 +9,7 @@ function NewLeave() {
   const [formData, setFormData] = useState({
     startDate: '',
     totalDays: '',
+    leaveType: '',
     reason: ''
   });
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,7 @@ function NewLeave() {
       const dataToSend = {
         startDate: convertISODateToBuddhistEra(formData.startDate),
         totalDays: parseInt(formData.totalDays),
+        leaveType: formData.leaveType,
         reason: formData.reason
       };
 
@@ -136,6 +138,21 @@ function NewLeave() {
             <small style={{ color: '#666', fontSize: '0.875rem' }}>
               ระบุจำนวนวันที่ต้องการลา (ตัวเลข)
             </small>
+          </div>
+
+          <div className="form-group">
+            <label>ประเภทการลา *</label>
+            <select
+              name="leaveType"
+              value={formData.leaveType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">เลือกประเภทการลา</option>
+              <option value="sick">ลาป่วย</option>
+              <option value="vacation">ลาพักร้อน</option>
+              <option value="other">อื่นๆ</option>
+            </select>
           </div>
 
           <div className="form-group">
