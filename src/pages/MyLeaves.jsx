@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { leaveAPI } from '../api';
+import { formatBangkokDate, formatBangkokDateTime } from '../utils/date';
+import { getLeaveTypeLabel } from '../utils/leaveTypes';
 
 function MyLeaves() {
   const [leaves, setLeaves] = useState([]);
@@ -67,7 +69,7 @@ function MyLeaves() {
               <tr>
                 <th>วันที่เริ่ม</th>
                 <th>จำนวนวัน</th>
-                <th>เหตุผล</th>
+                <th>ประเภทการลา </th>
                 <th>สถานะ</th>
                 <th>การจัดการ</th>
               </tr>
@@ -75,10 +77,10 @@ function MyLeaves() {
             <tbody>
               {leaves.map((leave) => (
                 <tr key={leave._id}>
-                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || formatBangkokDate(leave.startDate, '-')}</td>
                   <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
-                  <td data-label="เหตุผล" style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {leave.reason}
+                  <td data-label="ประเภทการลา " style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {getLeaveTypeLabel(leave.leaveType)}
                   </td>
                   <td data-label="สถานะ">{getStatusBadge(leave.status)}</td>
                   <td data-label="การจัดการ">
@@ -137,14 +139,18 @@ function MyLeaves() {
               <tbody>
                 <tr>
                   <td><strong>วันที่เริ่ม</strong></td>
-                  <td>{selectedLeave.formattedStartDate || new Date(selectedLeave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td>{selectedLeave.formattedStartDate || formatBangkokDate(selectedLeave.startDate, '-')}</td>
                 </tr>
                 <tr>
                   <td><strong>จำนวนวัน</strong></td>
                   <td>{selectedLeave.totalDays} วัน</td>
                 </tr>
                 <tr>
-                  <td><strong>เหตุผล</strong></td>
+                  <td><strong>ประเภทการลา </strong></td>
+                  <td>{getLeaveTypeLabel(selectedLeave.leaveType)}</td>
+                </tr>
+                <tr>
+                  <td><strong>เหตุผลการลา</strong></td>
                   <td>{selectedLeave.reason}</td>
                 </tr>
                 <tr>
@@ -159,7 +165,7 @@ function MyLeaves() {
                 )}
                 <tr>
                   <td><strong>วันที่ส่งคำขอ</strong></td>
-                  <td>{new Date(selectedLeave.createdAt).toLocaleString('th-TH')}</td>
+                  <td>{formatBangkokDateTime(selectedLeave.createdAt)}</td>
                 </tr>
               </tbody>
             </table>

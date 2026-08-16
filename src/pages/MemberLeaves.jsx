@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { authAPI } from '../api';
+import { formatBangkokDate, formatBangkokDateTime } from '../utils/date';
+import { getLeaveTypeLabel } from '../utils/leaveTypes';
 
 function MemberLeaves() {
   const { memberId } = useParams();
@@ -62,11 +64,7 @@ function MemberLeaves() {
   };
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear() + 543;
-    return `${day}/${month}/${year}`;
+    return formatBangkokDate(dateString);
   };
 
   const getStatusBadge = (status) => {
@@ -276,7 +274,7 @@ function MemberLeaves() {
               <tr>
                 <th>วันที่เริ่ม</th>
                 <th>จำนวนวัน</th>
-                <th>เหตุผล</th>
+                <th>ประเภทการลา </th>
                 <th>สถานะ</th>
                 <th>การจัดการ</th>
               </tr>
@@ -286,8 +284,8 @@ function MemberLeaves() {
                 <tr key={leave._id}>
                   <td data-label="วันที่เริ่ม">{formatDate(leave.startDate)}</td>
                   <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
-                  <td data-label="เหตุผล" style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {leave.reason}
+                  <td data-label="ประเภทการลา " style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {getLeaveTypeLabel(leave.leaveType)}
                   </td>
                   <td data-label="สถานะ">{getStatusBadge(leave.status)}</td>
                   <td data-label="การจัดการ">
@@ -350,7 +348,11 @@ function MemberLeaves() {
                   <td>{selectedLeave.totalDays} วัน</td>
                 </tr>
                 <tr>
-                  <td><strong>เหตุผล</strong></td>
+                  <td><strong>ประเภทการลา </strong></td>
+                  <td>{getLeaveTypeLabel(selectedLeave.leaveType)}</td>
+                </tr>
+                <tr>
+                  <td><strong>เหตุผลการลา</strong></td>
                   <td>{selectedLeave.reason}</td>
                 </tr>
                 <tr>
@@ -366,12 +368,12 @@ function MemberLeaves() {
                 {selectedLeave.approvedDate && (
                   <tr>
                     <td><strong>วันที่พิจารณา</strong></td>
-                    <td>{formatDate(selectedLeave.approvedDate)}</td>
+                    <td>{selectedLeave.formattedApprovedDate || formatBangkokDateTime(selectedLeave.approvedDate)}</td>
                   </tr>
                 )}
                 <tr>
                   <td><strong>วันที่ส่งคำขอ</strong></td>
-                  <td>{formatDate(selectedLeave.createdAt)}</td>
+                  <td>{formatBangkokDateTime(selectedLeave.createdAt)}</td>
                 </tr>
               </tbody>
             </table>
