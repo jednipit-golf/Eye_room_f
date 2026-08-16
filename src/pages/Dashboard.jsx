@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
 import { leaveAPI } from '../api';
 import { formatBangkokDate } from '../utils/date';
+import { getLeaveTypeLabel } from '../utils/leaveTypes';
 
 function Dashboard() {
   const { user } = useAuth();
@@ -105,7 +106,7 @@ function Dashboard() {
               <tr>
                 <th>วันที่เริ่ม</th>
                 <th>จำนวนวัน</th>
-                <th>เหตุผล</th>
+                <th>ประเภทการลา </th>
                 <th>สถานะ</th>
               </tr>
             </thead>
@@ -114,8 +115,8 @@ function Dashboard() {
                 <tr key={leave._id}>
                   <td data-label="วันที่เริ่ม">{leave.formattedStartDate || formatBangkokDate(leave.startDate, '-')}</td>
                   <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
-                  <td data-label="เหตุผล" style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {leave.reason}
+                  <td data-label="ประเภทการลา " style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {getLeaveTypeLabel(leave.leaveType)}
                   </td>
                   <td data-label="สถานะ">{getStatusBadge(leave.status)}</td>
                 </tr>

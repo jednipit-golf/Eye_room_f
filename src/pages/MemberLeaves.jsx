@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { authAPI } from '../api';
 import { formatBangkokDate, formatBangkokDateTime } from '../utils/date';
+import { getLeaveTypeLabel } from '../utils/leaveTypes';
 
 function MemberLeaves() {
   const { memberId } = useParams();
@@ -273,7 +274,7 @@ function MemberLeaves() {
               <tr>
                 <th>วันที่เริ่ม</th>
                 <th>จำนวนวัน</th>
-                <th>เหตุผล</th>
+                <th>ประเภทการลา </th>
                 <th>สถานะ</th>
                 <th>การจัดการ</th>
               </tr>
@@ -283,8 +284,8 @@ function MemberLeaves() {
                 <tr key={leave._id}>
                   <td data-label="วันที่เริ่ม">{formatDate(leave.startDate)}</td>
                   <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
-                  <td data-label="เหตุผล" style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {leave.reason}
+                  <td data-label="ประเภทการลา " style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {getLeaveTypeLabel(leave.leaveType)}
                   </td>
                   <td data-label="สถานะ">{getStatusBadge(leave.status)}</td>
                   <td data-label="การจัดการ">
@@ -347,7 +348,11 @@ function MemberLeaves() {
                   <td>{selectedLeave.totalDays} วัน</td>
                 </tr>
                 <tr>
-                  <td><strong>เหตุผล</strong></td>
+                  <td><strong>ประเภทการลา </strong></td>
+                  <td>{getLeaveTypeLabel(selectedLeave.leaveType)}</td>
+                </tr>
+                <tr>
+                  <td><strong>เหตุผลการลา</strong></td>
                   <td>{selectedLeave.reason}</td>
                 </tr>
                 <tr>
