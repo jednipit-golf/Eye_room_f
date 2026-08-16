@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { leaveAPI } from '../api';
+import { convertISODateToBuddhistEra } from '../utils/date';
 
 function NewLeave() {
   const navigate = useNavigate();
@@ -31,15 +32,6 @@ function NewLeave() {
     dateInputRef.current?.showPicker();
   };
 
-  // แปลงวันที่จาก input (YYYY-MM-DD) เป็น DD-MM-YYYY (พ.ศ.)
-  const convertDateToBuddhistEra = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear() + 543; // แปลง ค.ศ. เป็น พ.ศ.
-    return `${day}-${month}-${year}`;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -47,7 +39,7 @@ function NewLeave() {
 
     try {
       const dataToSend = {
-        startDate: convertDateToBuddhistEra(formData.startDate),
+        startDate: convertISODateToBuddhistEra(formData.startDate),
         totalDays: parseInt(formData.totalDays),
         reason: formData.reason
       };

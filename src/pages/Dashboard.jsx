@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
 import { leaveAPI } from '../api';
+import { formatBangkokDate } from '../utils/date';
 
 function Dashboard() {
   const { user } = useAuth();
@@ -111,7 +112,7 @@ function Dashboard() {
             <tbody>
               {recentLeaves.map((leave) => (
                 <tr key={leave._id}>
-                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || formatBangkokDate(leave.startDate, '-')}</td>
                   <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
                   <td data-label="เหตุผล" style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {leave.reason}

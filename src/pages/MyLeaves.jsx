@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { leaveAPI } from '../api';
+import { formatBangkokDate, formatBangkokDateTime } from '../utils/date';
 
 function MyLeaves() {
   const [leaves, setLeaves] = useState([]);
@@ -75,7 +76,7 @@ function MyLeaves() {
             <tbody>
               {leaves.map((leave) => (
                 <tr key={leave._id}>
-                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || formatBangkokDate(leave.startDate, '-')}</td>
                   <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
                   <td data-label="เหตุผล" style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {leave.reason}
@@ -137,7 +138,7 @@ function MyLeaves() {
               <tbody>
                 <tr>
                   <td><strong>วันที่เริ่ม</strong></td>
-                  <td>{selectedLeave.formattedStartDate || new Date(selectedLeave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td>{selectedLeave.formattedStartDate || formatBangkokDate(selectedLeave.startDate, '-')}</td>
                 </tr>
                 <tr>
                   <td><strong>จำนวนวัน</strong></td>
@@ -159,7 +160,7 @@ function MyLeaves() {
                 )}
                 <tr>
                   <td><strong>วันที่ส่งคำขอ</strong></td>
-                  <td>{new Date(selectedLeave.createdAt).toLocaleString('th-TH')}</td>
+                  <td>{formatBangkokDateTime(selectedLeave.createdAt)}</td>
                 </tr>
               </tbody>
             </table>

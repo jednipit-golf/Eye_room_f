@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { authAPI } from '../api';
+import { formatBangkokDate, formatBangkokDateTime } from '../utils/date';
 
 function MemberLeaves() {
   const { memberId } = useParams();
@@ -62,11 +63,7 @@ function MemberLeaves() {
   };
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear() + 543;
-    return `${day}/${month}/${year}`;
+    return formatBangkokDate(dateString);
   };
 
   const getStatusBadge = (status) => {
@@ -366,12 +363,12 @@ function MemberLeaves() {
                 {selectedLeave.approvedDate && (
                   <tr>
                     <td><strong>วันที่พิจารณา</strong></td>
-                    <td>{formatDate(selectedLeave.approvedDate)}</td>
+                    <td>{selectedLeave.formattedApprovedDate || formatBangkokDateTime(selectedLeave.approvedDate)}</td>
                   </tr>
                 )}
                 <tr>
                   <td><strong>วันที่ส่งคำขอ</strong></td>
-                  <td>{formatDate(selectedLeave.createdAt)}</td>
+                  <td>{formatBangkokDateTime(selectedLeave.createdAt)}</td>
                 </tr>
               </tbody>
             </table>

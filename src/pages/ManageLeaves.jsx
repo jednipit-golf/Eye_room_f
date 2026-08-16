@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { leaveAPI } from '../api';
+import { formatBangkokDate, formatBangkokDateTime } from '../utils/date';
 
 function ManageLeaves() {
   const navigate = useNavigate();
@@ -177,7 +178,7 @@ function ManageLeaves() {
                 <tr key={leave._id}>
                   <td data-label="พนักงาน">{leave.user?.name || 'N/A'}</td>
                   <td data-label="เบอร์โทร">{leave.user?.telephone || 'N/A'}</td>
-                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || new Date(leave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td data-label="วันที่เริ่ม">{leave.formattedStartDate || formatBangkokDate(leave.startDate, '-')}</td>
                   <td data-label="จำนวนวัน">{leave.totalDays} วัน</td>
                   <td data-label="เหตุผล" style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {leave.reason}
@@ -256,7 +257,7 @@ function ManageLeaves() {
                 </tr>
                 <tr>
                   <td><strong>วันที่เริ่ม</strong></td>
-                  <td>{selectedLeave.formattedStartDate || new Date(selectedLeave.startDate).toLocaleDateString('th-TH')}</td>
+                  <td>{selectedLeave.formattedStartDate || formatBangkokDate(selectedLeave.startDate, '-')}</td>
                 </tr>
                 <tr>
                   <td><strong>จำนวนวัน</strong></td>
@@ -279,12 +280,12 @@ function ManageLeaves() {
                 {(selectedLeave.status === 'approved' || selectedLeave.status === 'rejected') && selectedLeave.approvedDate && (
                   <tr>
                     <td><strong>วันที่พิจารณา</strong></td>
-                    <td>{selectedLeave.formattedApprovedDate || new Date(selectedLeave.approvedDate).toLocaleString('th-TH')}</td>
+                    <td>{selectedLeave.formattedApprovedDate || formatBangkokDateTime(selectedLeave.approvedDate)}</td>
                   </tr>
                 )}
                 <tr>
                   <td><strong>วันที่ส่งคำขอ</strong></td>
-                  <td>{new Date(selectedLeave.createdAt).toLocaleString('th-TH')}</td>
+                  <td>{formatBangkokDateTime(selectedLeave.createdAt)}</td>
                 </tr>
               </tbody>
             </table>
